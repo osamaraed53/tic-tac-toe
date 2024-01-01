@@ -1,22 +1,21 @@
 import { useState } from "react";
 import Square from "./Square";
 
-export default function Board({isNext, squares, onPlay }) {
+export default function Board({currentMove, squares, onPlay }) {
   
-  // const [squares , setSquares] = useState(Array(9).fill(null));
-  // const [isNext , setIsNext] = useState(true);
   const winner = calculateWinner(squares);
   let status;
   if (winner) {status = 'Winner: ' + winner}
-  else {status = 'Next player: ' + (isNext ? 'X' : 'O')}
+  else {status = 'Next player: ' + (xIsNext ? 'X' : 'O')}
 
 
 
   function handleClick(i) {
     if(  calculateWinner(squares)||squares[i]) return;
-    const next  = isNext ? 'X' : "O"; 
     const nextSquares = squares.slice();
+    const next  = xIsNext ? 'X' : "O"; 
     nextSquares[i] = next;
+    console.log("nextSquares",nextSquares)
     onPlay(nextSquares);
   }
   
@@ -56,6 +55,7 @@ function calculateWinner(squares) {
   ];
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
+  
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
     }
